@@ -72,14 +72,15 @@ Local preview or built-output smoke should confirm these visible strings:
 
 ## Deployment
 
-The intended deployment target is Vercel as a static Vite app. The production URL should be recorded here after the worker deploys the first slice.
+The deployment target is Vercel as a static Vite app.
 
 Production URL: https://ai-spend-command-center.vercel.app
 
 Deployment evidence:
 
-- Vercel deployment id: `dpl_GK4enw1wo57kiE5aN6VUP2NkMFsM`
-- Inspect URL: https://vercel.com/batb4016-9101s-projects/ai-spend-command-center/GK4enw1wo57kiE5aN6VUP2NkMFsM
+- Vercel deployment id: `dpl_6wZZ9RX9iTPCzteVkaGQ76XfHF34`
+- Inspect URL: https://vercel.com/batb4016-9101s-projects/ai-spend-command-center/6wZZ9RX9iTPCzteVkaGQ76XfHF34
+- Production deployment: https://ai-spend-command-center-ebe2ef3qa-batb4016-9101s-projects.vercel.app
 - Production alias smoke passed for `AI Spend Command Center`, `Spend table`, `runaway`, and `CFO-ready control memo`.
 
 ## Decisions Made
@@ -88,3 +89,4 @@ Deployment evidence:
 - Kept one dashboard surface for the first slice so reviewer attention goes to attribution, alert state, and control memo quality.
 - Included explicit no-advice and no-real-data boundaries because the product touches AI spend, ROI, approval, and CFO language.
 - Used deterministic threshold tests to make later fixer passes safer when they refine copy or layout.
+- Recorded both the Vercel inspect URL and the stable production alias so future automation runs can distinguish deployment identity from public review URL.
