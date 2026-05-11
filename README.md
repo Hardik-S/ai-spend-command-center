@@ -74,7 +74,13 @@ Local preview or built-output smoke should confirm these visible strings:
 
 The intended deployment target is Vercel as a static Vite app. The production URL should be recorded here after the worker deploys the first slice.
 
-Production URL: pending worker deployment.
+Production URL: https://ai-spend-command-center.vercel.app
+
+Deployment evidence:
+
+- Vercel deployment id: `dpl_GK4enw1wo57kiE5aN6VUP2NkMFsM`
+- Inspect URL: https://vercel.com/batb4016-9101s-projects/ai-spend-command-center/GK4enw1wo57kiE5aN6VUP2NkMFsM
+- Production alias smoke passed for `AI Spend Command Center`, `Spend table`, `runaway`, and `CFO-ready control memo`.
 
 ## Decisions Made
 
