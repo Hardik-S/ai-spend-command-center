@@ -48,6 +48,28 @@ describe('AI spend controls', () => {
     expect(summary.alertLevel).toBe('watch')
   })
 
+  it('flags positive spend against a zero budget cap as runaway', () => {
+    const summary = summarizeWorkflowSpend({
+      id: 'wf-zero-cap',
+      workflow: 'Uncapped Research Agent',
+      customer: 'Synthetic Customer',
+      owner: 'AI Ops',
+      modelCost: 120,
+      agentRuntimeCost: 40,
+      toolCost: 20,
+      budgetCap: 0,
+      estimatedOutcomeValue: 10000,
+      outcomeConfidence: 0.9,
+      approvalThreshold: 1000,
+      lastSpikePercent: 0,
+      outcome: 'Spend posted without an approved cap',
+    })
+
+    expect(summary.variance).toBe(180)
+    expect(summary.alertLevel).toBe('runaway')
+    expect(summary.memo).toContain('CFO approval')
+  })
+
   it('returns a stable zero portfolio ROI when no workflows are present', () => {
     const portfolio = summarizePortfolio([])
 

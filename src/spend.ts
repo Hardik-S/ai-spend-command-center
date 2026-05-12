@@ -84,8 +84,10 @@ export function summarizeWorkflowSpend(record: WorkflowSpend): WorkflowSpendSumm
   const riskAdjustedValue = record.estimatedOutcomeValue * record.outcomeConfidence
   const roiRatio = safeRatio(riskAdjustedValue, totalSpend)
   const approvalRequired = totalSpend >= record.approvalThreshold
+  const hasBudgetBreach =
+    record.budgetCap <= 0 ? totalSpend > record.budgetCap : variancePercent > 0.05
   const alertLevel =
-    variancePercent > 0.05 || record.lastSpikePercent >= 50
+    hasBudgetBreach || record.lastSpikePercent >= 50
       ? 'runaway'
       : approvalRequired || roiRatio < 2.5
         ? 'watch'
