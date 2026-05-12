@@ -73,12 +73,16 @@ export const workflowSpend: WorkflowSpend[] = [
   },
 ]
 
+function safeRatio(numerator: number, denominator: number) {
+  return denominator === 0 ? 0 : numerator / denominator
+}
+
 export function summarizeWorkflowSpend(record: WorkflowSpend): WorkflowSpendSummary {
   const totalSpend = record.modelCost + record.agentRuntimeCost + record.toolCost
   const variance = totalSpend - record.budgetCap
-  const variancePercent = variance / record.budgetCap
+  const variancePercent = safeRatio(variance, record.budgetCap)
   const riskAdjustedValue = record.estimatedOutcomeValue * record.outcomeConfidence
-  const roiRatio = riskAdjustedValue / totalSpend
+  const roiRatio = safeRatio(riskAdjustedValue, totalSpend)
   const approvalRequired = totalSpend >= record.approvalThreshold
   const alertLevel =
     variancePercent > 0.05 || record.lastSpikePercent >= 50
@@ -120,7 +124,7 @@ export function summarizePortfolio(records: WorkflowSpend[]) {
     riskAdjustedValue,
     runawayCount,
     approvalCount,
-    portfolioRoi: riskAdjustedValue / totalSpend,
+    portfolioRoi: safeRatio(riskAdjustedValue, totalSpend),
   }
 }
 

@@ -26,4 +26,32 @@ describe('AI spend controls', () => {
     expect(portfolio.approvalCount).toBe(2)
     expect(portfolio.portfolioRoi).toBeGreaterThan(2)
   })
+
+  it('keeps zero-spend workflows out of the controlled bucket when ROI is unavailable', () => {
+    const summary = summarizeWorkflowSpend({
+      id: 'wf-zero-spend',
+      workflow: 'Zero Spend Research Agent',
+      customer: 'Synthetic Customer',
+      owner: 'AI Ops',
+      modelCost: 0,
+      agentRuntimeCost: 0,
+      toolCost: 0,
+      budgetCap: 500,
+      estimatedOutcomeValue: 0,
+      outcomeConfidence: 0,
+      approvalThreshold: 250,
+      lastSpikePercent: 0,
+      outcome: 'No measurable outcome captured',
+    })
+
+    expect(summary.roiRatio).toBe(0)
+    expect(summary.alertLevel).toBe('watch')
+  })
+
+  it('returns a stable zero portfolio ROI when no workflows are present', () => {
+    const portfolio = summarizePortfolio([])
+
+    expect(portfolio.totalSpend).toBe(0)
+    expect(portfolio.portfolioRoi).toBe(0)
+  })
 })

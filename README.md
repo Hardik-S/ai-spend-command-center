@@ -37,6 +37,7 @@ No real customer, employee, invoice, token, payment, or billing data is included
 - `variance = totalSpend - budgetCap`
 - `riskAdjustedValue = estimatedOutcomeValue * outcomeConfidence`
 - `roiRatio = riskAdjustedValue / totalSpend`
+- ROI and variance ratios fall back to `0` when the denominator is zero so empty or zero-spend fixtures remain deterministic instead of producing `NaN`.
 - `approvalRequired = totalSpend >= approvalThreshold`
 - `runaway` is triggered when cap variance exceeds 5% or recent spend spike is at least 50%.
 - `watch` is triggered when approval is required or risk-adjusted ROI is below 2.5x.
