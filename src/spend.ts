@@ -95,7 +95,9 @@ export function summarizeWorkflowSpend(record: WorkflowSpend): WorkflowSpendSumm
 
   const memo =
     alertLevel === 'runaway'
-      ? `${record.workflow} needs CFO approval: spend is ${formatCurrency(totalSpend)} against a ${formatCurrency(record.budgetCap)} cap, with ${record.lastSpikePercent}% recent spike.`
+      ? hasBudgetBreach || approvalRequired
+        ? `${record.workflow} needs CFO approval: spend is ${formatCurrency(totalSpend)} against a ${formatCurrency(record.budgetCap)} cap, with ${record.lastSpikePercent}% recent spike.`
+        : `${record.workflow} needs operating review: spend is ${formatCurrency(totalSpend)} against a ${formatCurrency(record.budgetCap)} cap, with ${record.lastSpikePercent}% recent spike.`
       : `${record.workflow} is ${alertLevel}: ${formatCurrency(totalSpend)} spend supports ${formatCurrency(riskAdjustedValue)} risk-adjusted value.`
 
   return {

@@ -43,6 +43,7 @@ No real customer, employee, invoice, token, payment, or billing data is included
 - `runaway` is triggered when cap variance exceeds 5% or recent spend spike is at least 50%.
 - `watch` is triggered when approval is required or risk-adjusted ROI is below 2.5x.
 - `controlled` means the workflow is below those control limits.
+- Runaway memo copy separates formal CFO approval from operating review. Budget breaches or approval-threshold crossings trigger CFO approval copy; a spike-only runaway below those limits still needs review, but it should not claim CFO approval is required.
 
 These thresholds are product-design assumptions for the demo, not financial advice or a recommended control framework.
 
