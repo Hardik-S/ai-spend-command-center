@@ -70,6 +70,29 @@ describe('AI spend controls', () => {
     expect(summary.memo).toContain('CFO approval')
   })
 
+  it('does not request CFO approval for spike-only runaway alerts below the approval threshold', () => {
+    const summary = summarizeWorkflowSpend({
+      id: 'wf-spike-only',
+      workflow: 'Spike Only Research Agent',
+      customer: 'Synthetic Customer',
+      owner: 'AI Ops',
+      modelCost: 120,
+      agentRuntimeCost: 40,
+      toolCost: 20,
+      budgetCap: 1000,
+      estimatedOutcomeValue: 2000,
+      outcomeConfidence: 0.8,
+      approvalThreshold: 500,
+      lastSpikePercent: 64,
+      outcome: 'Usage spike detected before customer impact review',
+    })
+
+    expect(summary.alertLevel).toBe('runaway')
+    expect(summary.approvalRequired).toBe(false)
+    expect(summary.memo).toContain('spike')
+    expect(summary.memo).not.toContain('CFO approval')
+  })
+
   it('returns a stable zero portfolio ROI when no workflows are present', () => {
     const portfolio = summarizePortfolio([])
 
